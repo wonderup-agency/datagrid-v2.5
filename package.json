@@ -1,10 +1,10 @@
 {
-  "name": "starter",
+  "name": "datagrid-v2.5",
   "author": "Napu 😎",
-  "description": "A minimal JavaScript starter project with Rollup, PostCSS, and optimized build tooling for modern web development.",
+  "description": "frontend code for datagrid",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wonderup-agency/starter"
+    "url": "git+https://github.com/wonderup-agency/datagrid-v2.5"
   },
   "version": "1.0.0",
   "main": "dist/main.js",
@@ -33,5 +33,11 @@
     "rollup": "^4.47.1",
     "rollup-plugin-delete": "^3.0.1",
     "rollup-plugin-postcss": "^4.0.2"
+  },
+  "dependencies": {
+    "@rive-app/webgl2": "^2.31.2",
+    "gsap": "^3.13.0",
+    "nouislider": "^15.8.1",
+    "swiper": "^11.2.10"
   }
 }

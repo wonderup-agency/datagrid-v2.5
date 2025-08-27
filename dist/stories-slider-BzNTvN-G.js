@@ -1,0 +1,2 @@
+import{S as e,N as r}from"./navigation-BGeSStjR.js";function s(s){const t=s.querySelector(".swiper"),o=s.querySelector("[data-stories-slider='mask']"),a=s.querySelector("[data-stories-slider='blackout']"),i=s.querySelector("[data-stories-slider='prev']"),l=s.querySelector("[data-stories-slider='next']");t&&o&&a&&i&&l&&(t.append(o,a),new e(t,{modules:[r],slidesPerView:"auto",navigation:{prevEl:i,nextEl:l},on:{progress(e){o.style.opacity=1===e.progress?0:1}}}))}export{s as default};
+//# sourceMappingURL=stories-slider-BzNTvN-G.js.map

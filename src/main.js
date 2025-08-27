@@ -1,8 +1,36 @@
 // Define components with their selectors and import functions
 const components = [
   {
-    selector: "[data-component='example']",
-    importFn: () => import('./components/example.js'),
+    selector: "[data-component='home-hero']",
+    importFn: () => import('./components/home-hero.js'),
+  },
+  {
+    selector: "[data-component='navbar']",
+    importFn: () => import('./components/navbar.js'),
+  },
+  {
+    selector: "[data-component='agents-slider']",
+    importFn: () => import('./components/agents-slider.js'),
+  },
+  {
+    selector: "[data-component='stories-slider']",
+    importFn: () => import('./components/stories-slider.js'),
+  },
+  {
+    selector: "[data-component='pricing']",
+    importFn: () => import('./components/pricing.js'),
+  },
+  {
+    selector: "[data-component='faqs']",
+    importFn: () => import('./components/faqs.js'),
+  },
+  {
+    selector: "[data-component='filters']",
+    importFn: () => import('./components/filters.js'),
+  },
+  {
+    selector: "[data-component='connectors']",
+    importFn: () => import('./components/connectors.js'),
   },
   // Add more components here
 ]
@@ -10,7 +38,7 @@ const components = [
 async function loadComponent({ selector, importFn }) {
   try {
     let component = document.querySelectorAll(selector)
-    if (!component) return
+    if (component.length === 0) return
     const module = await importFn()
     const componentName = importFn.name || 'unknown'
 
