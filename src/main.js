@@ -28,10 +28,6 @@ const components = [
     selector: "[data-component='filters']",
     importFn: () => import('./components/filters.js'),
   },
-  {
-    selector: "[data-component='connectors']",
-    importFn: () => import('./components/connectors.js'),
-  },
   // Add more components here
 ]
 
