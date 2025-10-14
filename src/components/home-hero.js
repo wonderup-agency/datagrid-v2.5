@@ -81,26 +81,123 @@ export default function (component) {
   if (formWrapper) {
     const form = formWrapper.querySelector('form')
     const textArea = form.querySelector('textarea')
-    const placeholderText = formWrapper.dataset.placeholder.trim()
+    const placeholder = form.querySelector('[data-demo-form="placeholder"]')
+    const placeholderText = formWrapper.dataset.placeholder
+    const placeholderArray = placeholderText
+      ? placeholderText.split(',').map((str) => str.trim())
+      : []
+
     let targetUrl = formWrapper.dataset.targetUrl.trim()
 
-    let currentIndex = 0
-    const typewriterEffect = () => {
-      if (currentIndex < placeholderText.length) {
-        textArea.setAttribute(
-          'placeholder',
-          placeholderText.substring(0, currentIndex + 1)
-        )
-        currentIndex++
-        setTimeout(typewriterEffect, 20)
-      }
-    }
-    typewriterEffect()
+    // --- Typewriter Logic ---
+    let typewriterActive = false
+    let stopTypewriter = false
+    let typewriterTimeouts = []
+    let currentPlaceholderIndex = 0
 
+    function clearTypewriterTimeouts() {
+      typewriterTimeouts.forEach((t) => clearTimeout(t))
+      typewriterTimeouts = []
+    }
+
+    function setPlaceholderDisplay(show) {
+      placeholder.style.display = show ? 'block' : 'none'
+    }
+
+    function typewriterEffect(str, callback) {
+      // Remove characters one by one
+      let removeDelay = 20
+      let writeDelay = 40
+      let current = placeholder.textContent.replace('|', '')
+      let removeStep = () => {
+        if (current.length > 0) {
+          current = current.slice(0, -1)
+          placeholder.textContent = current
+          typewriterTimeouts.push(setTimeout(removeStep, removeDelay))
+        } else {
+          // Start writing new string
+          writeStep(0)
+        }
+      }
+      let writeStep = (i) => {
+        if (i === 0) {
+          typewriterTimeouts.push(setTimeout(() => writeStep(i + 1), 500))
+          return
+        }
+        if (i <= str.length) {
+          placeholder.textContent = str.slice(0, i) + '|'
+          typewriterTimeouts.push(
+            setTimeout(() => writeStep(i + 1), writeDelay)
+          )
+        } else {
+          // Blinking cursor
+          blinkCursor(str)
+          if (callback) callback()
+        }
+      }
+      let blink = true
+      function blinkCursor(baseStr) {
+        if (!typewriterActive) return
+        placeholder.textContent = baseStr + (blink ? '|' : '')
+        typewriterTimeouts.push(
+          setTimeout(() => {
+            blink = !blink
+            blinkCursor(baseStr)
+          }, 500)
+        )
+      }
+      removeStep()
+    }
+
+    function startTypewriterLoop() {
+      if (typewriterActive) return
+      typewriterActive = true
+      stopTypewriter = false
+      setPlaceholderDisplay(true)
+      function loop() {
+        if (!typewriterActive || stopTypewriter) return
+        clearTypewriterTimeouts()
+        let str = placeholderArray[currentPlaceholderIndex]
+        typewriterEffect(str, () => {
+          typewriterTimeouts.push(
+            setTimeout(() => {
+              if (!typewriterActive || stopTypewriter) return
+              currentPlaceholderIndex =
+                (currentPlaceholderIndex + 1) % placeholderArray.length
+              loop()
+            }, 3000)
+          )
+        })
+      }
+      loop()
+    }
+
+    function stopTypewriterLoop() {
+      typewriterActive = false
+      stopTypewriter = true
+      clearTypewriterTimeouts()
+      placeholder.textContent = ''
+      setPlaceholderDisplay(false)
+    }
+
+    // Listen for textarea input
     textArea.addEventListener('input', () => {
       textArea.style.height = 'auto'
       textArea.style.height = `${textArea.scrollHeight}px`
+      if (textArea.value.length > 0) {
+        stopTypewriterLoop()
+      } else {
+        if (!typewriterActive) {
+          currentPlaceholderIndex = 0
+          startTypewriterLoop()
+        }
+      }
     })
+
+    // Start typewriter if textarea is empty
+    if (textArea.value.length === 0 && placeholderArray.length > 0) {
+      startTypewriterLoop()
+    }
 
     form.addEventListener('submit', (e) => {
       e.preventDefault()
