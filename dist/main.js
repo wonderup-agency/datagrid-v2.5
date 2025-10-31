@@ -1,2 +1,2 @@
-export{m as default}from"./main-BNv5cguM.js";
+export{m as default}from"./main-B2p1bBRr.js";
 //# sourceMappingURL=main.js.map
