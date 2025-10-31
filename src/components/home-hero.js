@@ -239,11 +239,27 @@ export default function (component) {
     })
     items[0].parentElement.parentElement.remove()
 
+    // Track which items are currently displayed
+    const usedItems = new Set()
+
     spawnPoints.forEach((spawnPoint) => appendRandomTask(spawnPoint))
 
     function appendRandomTask(spawnPoint) {
-      const randomIndex = Math.floor(Math.random() * itemsJson.length)
-      const randomItem = itemsJson[randomIndex]
+      // Filter out items that are already in use
+      const availableItems = itemsJson.filter(
+        (item) => !usedItems.has(item.p.text)
+      )
+
+      // If all items are used, reset the usedItems set
+      if (availableItems.length === 0) {
+        usedItems.clear()
+        return appendRandomTask(spawnPoint)
+      }
+
+      const randomIndex = Math.floor(Math.random() * availableItems.length)
+      const randomItem = availableItems[randomIndex]
+      usedItems.add(randomItem.p.text)
+
       const taskElement = document.createElement('div')
       taskElement.className = randomItem.class
       const imgElement = document.createElement('img')
@@ -290,6 +306,8 @@ export default function (component) {
         delay: stayDuration,
         ease: 'power1.in',
         onComplete: () => {
+          // Remove the item from used set when it's removed from display
+          usedItems.delete(randomItem.p.text)
           taskElement.remove()
           appendRandomTask(spawnPoint)
         },
