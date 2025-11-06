@@ -1,0 +1,2 @@
+import{S as e,N as a}from"./navigation-BGeSStjR.js";function t(t){const r=t.querySelector(".swiper"),s=t.querySelector("[data-agents-slider='mask']"),o=t.querySelector("[data-agents-slider='blackout']"),l=t.querySelector("[data-agents-slider='prev']"),n=t.querySelector("[data-agents-slider='next']");r&&s&&o&&l&&n&&(r.append(s,o),new e(r,{modules:[a],slidesPerView:"auto",navigation:{prevEl:l,nextEl:n},on:{progress(e){s.style.opacity=1===e.progress?0:1}}}))}export{t as default};
+//# sourceMappingURL=agents-slider-D5C27Rc6.js.map
