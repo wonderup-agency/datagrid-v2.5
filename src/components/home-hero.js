@@ -7,18 +7,34 @@ import gsap from 'gsap'
  * @param {HTMLElement} component
  */
 export default function (component) {
-  // GRID BG
+  // HERO EFFECTS
   const bgGrid = document.querySelector("[data-home-hero='bg-grid']")
+  const bgVideo = document.querySelector("[data-home-hero='bg-video']")
+  const grainElement = document.querySelector('[data-home-hero="grain"]')
+  const sections = document.querySelectorAll('section')
+  const firstSection = sections[0] || null
+  const secondSection = sections[1] || null
+  let totalHeight = 0
+
+  if (grainElement) {
+    const options = {
+      animate: true,
+      patternWidth: 500,
+      patternHeight: 500,
+      grainOpacity: 0.125,
+      grainDensity: 2,
+      grainWidth: 1,
+      grainHeight: 1,
+    }
+    grained(grainElement, options)
+    grainElement.style.opacity = 1
+  }
+
+  if (bgVideo) {
+    gsap.fromTo(bgVideo, { opacity: 0 }, { opacity: 1, duration: 4, ease: 'power1.out' })
+  }
+
   if (bgGrid) {
-    const sections = document.querySelectorAll('section')
-    const firstSection = sections[0] || null
-    const secondSection = sections[1] || null
-    let totalHeight = 0
-    if (firstSection) totalHeight += firstSection.offsetHeight
-    if (secondSection) totalHeight += secondSection.offsetHeight
-    gsap.set(bgGrid, {
-      height: `${totalHeight}px`,
-    })
     gsap.to(bgGrid, {
       opacity: 1,
       duration: 2,
@@ -26,10 +42,24 @@ export default function (component) {
     })
   }
 
-  // RIVE
-  const canvas = document.querySelector("[data-component='home-hero-rive']")
+  updateEffectsHeight()
+  window.addEventListener('resize', updateEffectsHeight)
+  function updateEffectsHeight() {
+    totalHeight = 0
+    if (firstSection) totalHeight += firstSection.offsetHeight
+    if (secondSection) totalHeight += secondSection.offsetHeight
 
-  if (canvas && rive) {
+    if (bgGrid) gsap.set(bgGrid, { height: `${totalHeight}px` })
+
+    if (bgVideo) gsap.set(bgVideo, { height: `${totalHeight + 100}px` })
+
+    if (grainElement?.parentElement) gsap.set(grainElement.parentElement, { height: `${totalHeight + 100}px` })
+  }
+
+  // RIVE (removed, replaced with video)
+  // const canvas = document.querySelector("[data-component='home-hero-rive']")
+  // if (canvas && rive) {
+  if (false) {
     const src = canvas.dataset.src.trim()
     const artboard = canvas.dataset.artboard.trim()
     const stateMachines = canvas.dataset.stateMachines.trim()
@@ -83,9 +113,7 @@ export default function (component) {
     const textArea = form.querySelector('textarea')
     const placeholder = form.querySelector('[data-demo-form="placeholder"]')
     const placeholderText = formWrapper.dataset.placeholder
-    const placeholderArray = placeholderText
-      ? placeholderText.split(',').map((str) => str.trim())
-      : []
+    const placeholderArray = placeholderText ? placeholderText.split(',').map((str) => str.trim()) : []
 
     let targetUrl = formWrapper.dataset.targetUrl.trim()
 
@@ -126,9 +154,7 @@ export default function (component) {
         }
         if (i <= str.length) {
           placeholder.textContent = str.slice(0, i) + '|'
-          typewriterTimeouts.push(
-            setTimeout(() => writeStep(i + 1), writeDelay)
-          )
+          typewriterTimeouts.push(setTimeout(() => writeStep(i + 1), writeDelay))
         } else {
           // Blinking cursor
           blinkCursor(str)
@@ -162,8 +188,7 @@ export default function (component) {
           typewriterTimeouts.push(
             setTimeout(() => {
               if (!typewriterActive || stopTypewriter) return
-              currentPlaceholderIndex =
-                (currentPlaceholderIndex + 1) % placeholderArray.length
+              currentPlaceholderIndex = (currentPlaceholderIndex + 1) % placeholderArray.length
               loop()
             }, 3000)
           )
@@ -209,8 +234,7 @@ export default function (component) {
           params.append(key, value)
         }
       }
-      targetUrl += `?${params.toString()}`
-      window.open(targetUrl, '_blank')
+      window.open(`${targetUrl}?${params.toString()}`, '_blank')
     })
   }
 
@@ -218,9 +242,7 @@ export default function (component) {
   const aiTasksWrapper = document.querySelector("[data-component='ai-tasks']")
   if (aiTasksWrapper) {
     const items = aiTasksWrapper.querySelectorAll("[data-ai-tasks='item']")
-    const spawnPoints = aiTasksWrapper.querySelectorAll(
-      "[data-ai-tasks='spawnpoint']"
-    )
+    const spawnPoints = document.querySelectorAll("[data-ai-tasks='spawnpoint']")
 
     const itemsJson = Array.from(items).map((item) => {
       const icon = item.querySelector('img')
@@ -246,9 +268,7 @@ export default function (component) {
 
     function appendRandomTask(spawnPoint) {
       // Filter out items that are already in use
-      const availableItems = itemsJson.filter(
-        (item) => !usedItems.has(item.p.text)
-      )
+      const availableItems = itemsJson.filter((item) => !usedItems.has(item.p.text))
 
       // If all items are used, reset the usedItems set
       if (availableItems.length === 0) {
@@ -277,11 +297,13 @@ export default function (component) {
       const inOutDuration = getRandomBetween(3, 5)
       const stayDuration = getRandomBetween(3, 8)
 
-      // 30% chance for item to be further behind
+      // If screen width < 992px, use normal scale. Otherwise, 30% chance for item to be further behind
       const depth =
-        getRandomBetween(0, 1) > 0.7
-          ? { from: 0.6, to: 0.75, opacity: 0.5 }
-          : { from: 0.9, to: 1, opacity: 1 }
+        window.innerWidth < 992
+          ? { from: 0.9, to: 1, opacity: 1 }
+          : getRandomBetween(0, 1) > 0.7
+            ? { from: 0.6, to: 0.75, opacity: 0.5 }
+            : { from: 0.9, to: 1, opacity: 1 }
 
       const tl = gsap.timeline()
       tl.fromTo(
