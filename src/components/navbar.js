@@ -15,8 +15,7 @@ export default function (component) {
   }, 100)
 
   function toggleScroll() {
-    document.body.style.overflow =
-      document.body.style.overflow === 'hidden' ? 'auto' : 'hidden'
+    document.body.style.overflow = document.body.style.overflow === 'hidden' ? 'auto' : 'hidden'
   }
 
   if (window.scrollY > 0) {

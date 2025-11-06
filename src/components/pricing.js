@@ -11,11 +11,7 @@ export default function (component) {
 
   // --- utilities ---
   const matchCardHeights = () => {
-    const blocks = [
-      ...component.querySelectorAll(
-        "[data-pricing='card'] .pricing_cards_block"
-      ),
-    ]
+    const blocks = [...component.querySelectorAll("[data-pricing='card'] .pricing_cards_block")]
     blocks.forEach((b) => (b.style.height = '')) // reset before measuring
     if (window.innerWidth > 767 && blocks.length) {
       const maxHeight = Math.max(...blocks.map((b) => b.offsetHeight))
@@ -36,10 +32,7 @@ export default function (component) {
 
       featuredCard.style.height = '' // reset
       const children = Array.from(component.children).slice(1)
-      const totalHeight = children.reduce(
-        (sum, child) => sum + child.offsetHeight,
-        0
-      )
+      const totalHeight = children.reduce((sum, child) => sum + child.offsetHeight, 0)
       featuredCard.style.height = featuredCard.offsetHeight + totalHeight + 'px'
     } else {
       // cleanup if <992
@@ -106,19 +99,14 @@ export default function (component) {
       creditsEl.textContent = value.toLocaleString('en-US')
 
       if (costPerMonth && costPerMonthEl) {
-        costPerMonthEl.textContent = (
-          (value * costPerMonth) /
-          1000
-        ).toLocaleString('en-US')
+        costPerMonthEl.textContent = ((value * costPerMonth) / 1000).toLocaleString('en-US')
       }
 
       const overCap = value > 500000
       priceEl.style.display = overCap ? 'none' : 'block'
       salesEl.style.display = overCap ? 'block' : 'none'
       button.textContent = overCap ? 'Talk to sales' : btnDefault.text
-      button.href = overCap
-        ? 'https://book.avoma.com/toric/samuel/datagrid-demo-request/'
-        : btnDefault.href
+      button.href = overCap ? 'https://book.avoma.com/toric/samuel/datagrid-demo-request/' : btnDefault.href
     })
   })
 }

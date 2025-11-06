@@ -3,16 +3,13 @@
  * @param {HTMLElement} component
  */
 export default function (component) {
-  const filtersMenuButton = component.querySelector(
-    "[data-filters='menu-button']"
-  )
+  const filtersMenuButton = component.querySelector("[data-filters='menu-button']")
   const filtersMenu = component.querySelector("[data-filters='menu']")
 
   if (!filtersMenuButton || !filtersMenu) return
 
   filtersMenuButton.addEventListener('click', (e) => {
-    const isExpanded =
-      filtersMenuButton.getAttribute('aria-expanded') === 'true'
+    const isExpanded = filtersMenuButton.getAttribute('aria-expanded') === 'true'
     if (isExpanded) closeMenu()
     else openMenu()
   })

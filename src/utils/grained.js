@@ -60,8 +60,7 @@ function grained(selector, opt) {
     for (var w = 0; w < options.patternWidth; w += options.grainDensity) {
       for (var h = 0; h < options.patternHeight; h += options.grainDensity) {
         var rgb = (Math.random() * 256) | 0
-        ctx.fillStyle =
-          'rgba(' + [rgb, rgb, rgb, options.grainOpacity].join() + ')'
+        ctx.fillStyle = 'rgba(' + [rgb, rgb, rgb, options.grainOpacity].join() + ')'
         ctx.fillRect(w, h, options.grainWidth, options.grainHeight)
       }
     }
@@ -135,19 +134,14 @@ function grained(selector, opt) {
   document.body.appendChild(style)
 
   var rule = 'background-image: url(' + noise + ');'
-  rule +=
-    'position: absolute;content: "";height: 300%;width: 300%;left: -100%;top: -100%;'
+  rule += 'position: absolute;content: "";height: 300%;width: 300%;left: -100%;top: -100%;'
   pre = prefixes.length
   if (options.animate) {
     while (pre--) {
       rule += prefixes[pre] + 'animation-name:grained;'
       rule += prefixes[pre] + 'animation-iteration-count: infinite;'
       rule += prefixes[pre] + 'animation-duration: ' + options.grainChaos + 's;'
-      rule +=
-        prefixes[pre] +
-        'animation-timing-function: steps(' +
-        options.grainSpeed +
-        ', end);'
+      rule += prefixes[pre] + 'animation-timing-function: steps(' + options.grainSpeed + ', end);'
     }
   }
 
