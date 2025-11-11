@@ -49,7 +49,7 @@ export default function (component) {
     if (firstSection) totalHeight += firstSection.offsetHeight
     if (secondSection) totalHeight += secondSection.offsetHeight
 
-    if (bgGrid) gsap.set(bgGrid, { height: `${totalHeight}px` })
+    if (bgGrid) gsap.set(bgGrid, { height: `${firstSection.offsetHeight}px` })
 
     if (bgVideo) gsap.set(bgVideo, { height: `${totalHeight + 100}px` })
 
