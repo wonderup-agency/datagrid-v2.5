@@ -68,7 +68,8 @@ export default function (component) {
 
     if (!slider || !creditsEl || !button) return
 
-    const btnDefault = { text: button.textContent, href: button.href }
+    const btnDefault = { text: button.parentElement.querySelector('span').textContent, href: button.href }
+    console.log(btnDefault)
 
     if (costPerMonth && costPerMonthEl) {
       costPerMonthEl.textContent = costPerMonth
@@ -105,8 +106,8 @@ export default function (component) {
       const overCap = value > 500000
       priceEl.style.display = overCap ? 'none' : 'block'
       salesEl.style.display = overCap ? 'block' : 'none'
-      button.textContent = overCap ? 'Talk to sales' : btnDefault.text
       button.href = overCap ? 'https://book.avoma.com/toric/samuel/datagrid-demo-request/' : btnDefault.href
+      button.parentElement.querySelector('span').textContent = overCap ? 'Talk to sales' : btnDefault.text
     })
   })
 }
