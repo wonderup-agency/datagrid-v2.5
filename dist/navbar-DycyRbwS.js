@@ -1,2 +1,0 @@
-function e(e){let t;e.querySelector("[data-navbar='menu-button']").addEventListener("click",o);const l=setInterval(()=>{t=e.querySelector(".w-nav-overlay"),t&&(clearInterval(l),t.addEventListener("click",o))},100);function o(){document.body.style.overflow="hidden"===document.body.style.overflow?"auto":"hidden"}window.scrollY>0&&e.classList.add("is-scrolled"),window.addEventListener("scroll",()=>{e.classList.toggle("is-scrolled",window.scrollY>0)})}export{e as default};
-//# sourceMappingURL=navbar-DycyRbwS.js.map
