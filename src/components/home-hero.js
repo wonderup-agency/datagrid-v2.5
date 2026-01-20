@@ -36,7 +36,7 @@ export default function (component) {
 
   if (bgGrid) {
     gsap.to(bgGrid, {
-      opacity: 1,
+      opacity: 0.5,
       duration: 2,
       ease: 'power1.in',
     })
