@@ -81,17 +81,15 @@ export default function (component) {
       snap: true,
       range: {
         min: 1000,
-        '8%': 3000,
-        '16%': 10000,
-        '24%': 25000,
-        '32%': 50000,
-        '40%': 75000,
-        '48%': 100000,
-        '60%': 200000,
-        '72%': 300000,
-        '84%': 400000,
-        '92%': 500000,
-        max: 600000,
+        '10%': 3000,
+        '19%': 10000,
+        '29%': 25000,
+        '38%': 50000,
+        '48%': 75000,
+        '57%': 100000,
+        '71%': 200000,
+        '86%': 300000,
+        max: 400000,
       },
     })
 
@@ -103,7 +101,7 @@ export default function (component) {
         costPerMonthEl.textContent = ((value * costPerMonth) / 1000).toLocaleString('en-US')
       }
 
-      const overCap = value > 500000
+      const overCap = value > 300000
       priceEl.style.display = overCap ? 'none' : 'block'
       salesEl.style.display = overCap ? 'block' : 'none'
       button.href = overCap ? 'https://book.avoma.com/toric/samuel/datagrid-demo-request/' : btnDefault.href
