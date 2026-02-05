@@ -3,6 +3,8 @@ import '../styles/nouislider.css'
 import 'nouislider/dist/nouislider.css'
 
 const PRICING_TABLE = {
+  1000: 90,
+  3000: 270,
   5000: 450,
   10000: 720,
   25000: 1800,
@@ -91,21 +93,23 @@ export default function (component) {
     }
 
     noUiSlider.create(slider, {
-      start: [5000],
+      start: [1000],
       connect: 'lower',
       snap: true,
       range: {
-        min: 5000,
-        '9%': 10000,
-        '18%': 25000,
-        '27%': 50000,
-        '36%': 75000,
-        '45%': 100000,
-        '55%': 125000,
-        '64%': 150000,
-        '73%': 200000,
-        '82%': 250000,
-        '91%': 300000,
+        min: 1000,
+        '8%': 3000,
+        '15%': 5000,
+        '23%': 10000,
+        '31%': 25000,
+        '38%': 50000,
+        '46%': 75000,
+        '54%': 100000,
+        '62%': 125000,
+        '69%': 150000,
+        '77%': 200000,
+        '85%': 250000,
+        '92%': 300000,
         max: 400000,
       },
     })
@@ -118,7 +122,7 @@ export default function (component) {
         costPerMonthEl.textContent = PRICING_TABLE[value].toLocaleString('en-US')
       }
 
-      const overCap = value > 300000
+      const overCap = value >= 400000
       priceEl.style.display = overCap ? 'none' : 'block'
       salesEl.style.display = overCap ? 'block' : 'none'
       button.href = overCap ? 'https://book.avoma.com/toric/samuel/datagrid-demo-request/' : btnDefault.href
