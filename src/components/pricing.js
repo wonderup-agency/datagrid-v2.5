@@ -2,6 +2,21 @@ import * as noUiSlider from 'nouislider'
 import '../styles/nouislider.css'
 import 'nouislider/dist/nouislider.css'
 
+const PRICING_TABLE = {
+  5000: 450,
+  10000: 720,
+  25000: 1800,
+  50000: 3600,
+  75000: 4860,
+  100000: 6480,
+  125000: 8100,
+  150000: 8748,
+  200000: 11664,
+  250000: 14580,
+  300000: 16621,
+  400000: 22162,
+}
+
 /**
  *
  * @param {HTMLElement} component
@@ -76,19 +91,21 @@ export default function (component) {
     }
 
     noUiSlider.create(slider, {
-      start: [1000],
+      start: [5000],
       connect: 'lower',
       snap: true,
       range: {
-        min: 1000,
-        '10%': 3000,
-        '19%': 10000,
-        '29%': 25000,
-        '38%': 50000,
-        '48%': 75000,
-        '57%': 100000,
-        '71%': 200000,
-        '86%': 300000,
+        min: 5000,
+        '9%': 10000,
+        '18%': 25000,
+        '27%': 50000,
+        '36%': 75000,
+        '45%': 100000,
+        '55%': 125000,
+        '64%': 150000,
+        '73%': 200000,
+        '82%': 250000,
+        '91%': 300000,
         max: 400000,
       },
     })
@@ -97,8 +114,8 @@ export default function (component) {
       const value = Number(val)
       creditsEl.textContent = value.toLocaleString('en-US')
 
-      if (costPerMonth && costPerMonthEl) {
-        costPerMonthEl.textContent = ((value * costPerMonth) / 1000).toLocaleString('en-US')
+      if (costPerMonthEl && PRICING_TABLE[value] !== undefined) {
+        costPerMonthEl.textContent = PRICING_TABLE[value].toLocaleString('en-US')
       }
 
       const overCap = value > 300000
