@@ -1,0 +1,2 @@
+function e(e){const t=document.querySelector("[data-msa='rich-text']"),r=document.querySelector("[data-msa='tables-json']");if(!t||!r)return;const a=r.textContent.trim().replace(/[\u0000-\u001F\u007F]/g," ");if(!a)return;let n;try{n=JSON.parse(a)}catch(e){return}n.forEach(({id:e,html:r})=>{t.innerHTML=t.innerHTML.replace(new RegExp(`<p[^>]*>%%${e}%%<\\/p>`),`<div class="table-wrapper">${r}</div>`)})}export{e as default};
+//# sourceMappingURL=msa-Btg7Qu_I.js.map

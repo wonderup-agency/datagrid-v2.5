@@ -32,6 +32,10 @@ const components = [
     selector: "[data-component='release-notes']",
     importFn: () => import('./components/release-notes.js'),
   },
+  {
+    selector: "[data-component='msa']",
+    importFn: () => import('./components/msa.js'),
+  },
   // Add more components here
 ]
 
